@@ -11,6 +11,15 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { GripVertical, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+const initialTasks = [
+  { id: '1', title: 'Design homepage mockup', status: 'todo' },
+  { id: '2', title: 'Set up project repository', status: 'todo' },
+  { id: '3', title: 'Create user authentication', status: 'inprogress' },
+  { id: '4', title: 'Write API documentation', status: 'inprogress' },
+  { id: '5', title: 'Deploy to staging server', status: 'completed' },
+  { id: '6', title: 'Initial project planning', status: 'completed' },
+];
+
 const columns = [
   {
     id: 'todo',
@@ -33,26 +42,34 @@ const columns = [
 ];
 
 function TestDraDroppaleContainer() {
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem('tasks', tasks);
-    return saved ? JSON.parse(saved) : [];
-  });
+  //   const [tasks, setTasks] = useState(() => {
+  //     const saved = localStorage.getItem('tasks', tasks);
+  //     return saved ? JSON.parse(saved) : [];
+  //   });
+  const [tasks, setTasks] = useState(initialTasks);
   const [activeId, setActiveId] = useState(null);
   const [newTask, setNewTask] = useState('');
+
+  //   const addTask = {
+  //     id: date.now(),
+  //     title: 'Just a placeholder',
+  //     text: newTask,
+  //     status: 'todo'
+  //   };
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGatter: sortableKeyboardCoordinates })
   );
 
-  useEffect(
-    () => localStorage.setItem('tasks', JSON.stringify(tasks)),
-    [tasks]
-  );
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleDragStart = (event) => {
     setActiveId(event.active.id);
   };
+
   const handleDragOver = (event) => {
     const { active, over } = event;
 
@@ -98,6 +115,7 @@ function TestDraDroppaleContainer() {
       }
     }
   };
+
   const addTask = () => {
     if (newTask.trim()) {
       const newTaskItem = {
@@ -109,12 +127,15 @@ function TestDraDroppaleContainer() {
       setNewTask('');
     }
   };
+
   const handleOnKeyDown = (e) => {
     if (e.key === 'Enter') addTask();
   };
-  const getTasksByStatus = () => {
-    return tasks.filter((task) => task.status === activeId);
+
+  const getTasksByStatus = (status) => {
+    return tasks.filter((task) => task.status === status);
   };
+
   const activeTask = tasks.find((task) => task.id === activeId);
 
   return (

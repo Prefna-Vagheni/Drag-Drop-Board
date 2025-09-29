@@ -7,7 +7,7 @@ import TestDraDroppaleContainer from './TestDraDroppaleContainer';
 function AppLayout() {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center text-gray-800 bg-gray-200">
-      <Header />
+      {/* <Header /> */}
       {/* <TestDraDroppaleContainer /> */}
       <Column />
 

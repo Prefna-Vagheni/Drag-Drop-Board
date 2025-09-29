@@ -1,4 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
 
 export default function SortableItem({ id, title, status }) {
   const {
