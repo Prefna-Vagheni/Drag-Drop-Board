@@ -11,12 +11,14 @@ export default function DroppableColumn({
   bgColor,
   textColor,
   id,
+  onDelete,
 }) {
   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id });
+
   return (
     <div
       ref={setDroppableNodeRef}
-      className={`${bgColor} p-4 rounded-lg min-h-[400px]`}
+      className={`${bgColor} p-4 rounded-lg min-h-[100px] overflow-y-scroll`}
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className={`font-semibold text-lg ${textColor}`}>{title}</h2>
@@ -37,11 +39,12 @@ export default function DroppableColumn({
               id={task.id}
               title={task.title}
               status={task.status}
+              onDelete={onDelete}
             />
           ))}
           {tasks.length === 0 && (
             <div className="text-gray-500 text-center py-8 text-sm">
-              Drop tasks here
+              No tasks yet. Drop a new one here
             </div>
           )}
         </div>

@@ -1,8 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, Trash2 } from 'lucide-react';
 
-export default function SortableItem({ id, title, status }) {
+export default function SortableItem({ id, title, status, onDelete }) {
   const {
     attributes,
     listeners,
@@ -15,7 +15,8 @@ export default function SortableItem({ id, title, status }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    ...(isDragging ? { boxShadow: '0 6px 18px rgba(0,0,0,0.12)' } : {}),
+    // ...(isDragging ? { boxShadow: '0 6px 18px rgba(0,0,0,0.12)' } : {}),
+    opacity: isDragging ? 0.5 : 1,
   };
 
   const getStatusColor = (status) => {
@@ -44,10 +45,19 @@ export default function SortableItem({ id, title, status }) {
       } hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-800">{title}</span>
         <div className="text-gray-400 hover:text-gray-600 p-1">
           <GripVertical size={16} />
         </div>
+        <span className="text-sm font-medium text-gray-800">{title}</span>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete?.(id);
+          }}
+          className="text-red-500 hover:text-red-700 transition-colors p-1"
+        >
+          <Trash2 size={18} />
+        </button>
       </div>
     </div>
   );

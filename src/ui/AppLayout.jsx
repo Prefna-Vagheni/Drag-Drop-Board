@@ -6,7 +6,7 @@ import Column from './Column';
 
 function AppLayout() {
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center text-gray-800 bg-gray-200">
+    <div className="w-full h-screen text-gray-800 bg-gray-200">
       {/* <Header /> */}
       {/* <TestDraDroppaleContainer /> */}
       <Column />

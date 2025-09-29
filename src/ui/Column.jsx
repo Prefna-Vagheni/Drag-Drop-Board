@@ -1,4 +1,3 @@
-// DragDropTodoApp.jsx
 import { useEffect, useState } from 'react';
 import {
   DndContext,
@@ -9,14 +8,8 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Plus, GripVertical } from 'lucide-react'; // swap if you use different icon lib
-import SortableItem from './SortableItem';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { Plus, GripVertical } from 'lucide-react';
 import DroppableColumn from './DroppableColumn';
 
 const columns = [
@@ -185,6 +178,11 @@ export default function DragDropTodoApp() {
     if (e.key === 'Enter') addTask();
   };
 
+  const handleDelete = (id) => {
+    console.log('clicked');
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -228,6 +226,7 @@ export default function DragDropTodoApp() {
                 bgColor={col.bg}
                 text={col.text}
                 tasks={getTasksByStatus(col.id)}
+                onDelete={handleDelete}
               />
             ))}
           </div>
@@ -249,77 +248,3 @@ export default function DragDropTodoApp() {
     </div>
   );
 }
-
-/* ---------- DroppableColumn ---------- */
-/* Registers as droppable and uses SortableContext for reordering */
-// function DroppableColumn({ id, title, bg, text, tasks }) {
-//   // register column as droppable so DnD knows when we hover the column itself
-//   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id });
-
-//   return (
-//     <div
-//       ref={setDroppableNodeRef}
-//       className={`p-4 rounded-lg shadow-sm ${bg} min-h-[400px]`}
-//     >
-//       <h2 className={`font-semibold mb-4 ${text}`}>{title}</h2>
-
-//       <SortableContext
-//         items={tasks.map((t) => t.id)}
-//         strategy={verticalListSortingStrategy}
-//       >
-//         <div className="space-y-2">
-//           {tasks.map((task) => (
-//             <SortableItem key={task.id} id={task.id} title={task.title} />
-//           ))}
-//         </div>
-//       </SortableContext>
-//     </div>
-//   );
-// }
-
-/* ---------- SortableTask ---------- */
-/* Each task must use useSortable to be draggable/sortable */
-// function SortableTask({ id, title, status }) {
-//   const {
-//     attributes,
-//     listeners,
-//     setNodeRef,
-//     transform,
-//     transition,
-//     isDragging,
-//   } = useSortable({ id });
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     transition,
-//     // a slight scale while dragging for better UX
-//     ...(isDragging ? { boxShadow: '0 6px 18px rgba(0,0,0,0.12)' } : {}),
-//   };
-
-//   const getStatusColor = (status) => {
-//     switch (status) {
-//       case 'todo':
-//         return 'border-l-gray-400';
-//       case 'inprogress':
-//         return 'border-l-blue-400';
-//       case 'completed':
-//         return 'border-l-green-400';
-//       default:
-//         return 'border-l-gray-400';
-//     }
-//   };
-
-//   return (
-//     <div
-//       ref={setNodeRef}
-//       style={style}
-//       {...attributes}
-//       {...listeners}
-//       className={`bg-white p-3 rounded-lg shadow flex justify-between items-center cursor-grab ${getStatusColor(
-//         status
-//       )}`}
-//     >
-//       <span className="text-sm">{title}</span>
-//       <GripVertical size={14} className="text-gray-400" />
-//     </div>
-//   );
-// }
