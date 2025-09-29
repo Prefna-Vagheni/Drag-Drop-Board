@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { TaskContext } from '../context/TasksContext';
-import Task from './Task';
+// import Task from ' ./Task';
 
 function TaskList() {
   const { tasks, setTasks } = useContext(TaskContext);
@@ -19,7 +19,7 @@ function TaskList() {
   return (
     <div className=" space-y-2">
       {tasks.length === 0 && <p>No tasks yet</p>}
-      {tasks.map((task) => (
+      {/* {tasks.map((task) => (
         <Task key={task.id}>
           <span
             onClick={() => toggleTask(task.id)}
@@ -36,7 +36,7 @@ function TaskList() {
             Delete
           </button>
         </Task>
-      ))}
+      ))} */}
     </div>
   );
 }

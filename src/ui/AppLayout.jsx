@@ -1,8 +1,8 @@
 import Header from './Header';
 import Heading from './Heading';
-import TaskList from './TaskList';
+// import TaskList from './TaskList';
 import Column from './Column';
-import TestDraDroppaleContainer from './TestDraDroppaleContainer';
+// import TestDraDroppaleContainer from './TestDraDroppaleContainer';
 
 function AppLayout() {
   return (

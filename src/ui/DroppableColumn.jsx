@@ -2,7 +2,8 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import SortableItem from './Task';
+import SortableItem from './SortableItem';
+// import SortableItem from './Task';
 
 export default function DroppableColumn({ title, tasks, bgColor, textColor }) {
   return (
