@@ -4,7 +4,6 @@ import {
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
 import { useDroppable } from '@dnd-kit/core';
-// import SortableItem from './Task';
 
 export default function DroppableColumn({
   title,
