@@ -3,13 +3,24 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
+import { useDroppable } from '@dnd-kit/core';
 // import SortableItem from './Task';
 
-export default function DroppableColumn({ title, tasks, bgColor, textColor }) {
+export default function DroppableColumn({
+  title,
+  tasks,
+  bgColor,
+  textColor,
+  id,
+}) {
+  const { setNodeRef: setDroppableNodeRef } = useDroppable({ id });
   return (
-    <div className={`${bgColor} p-4 rounded-lg min-h-[400px]`}>
+    <div
+      ref={setDroppableNodeRef}
+      className={`${bgColor} p-4 rounded-lg min-h-[400px]`}
+    >
       <div className="flex items-center justify-between mb-4">
-        <h2 className={`font-semibold text-lg ${textColor}`}>{title}</h2>
+        <h2 className={`font-semibold mb-4 text-lg ${textColor}`}>{title}</h2>
         <span
           className={`text-sm ${textColor} bg-white px-2 py-1 rounded-full`}
         >

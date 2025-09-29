@@ -15,6 +15,7 @@ export default function SortableItem({ id, title, status }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    ...(isDragging ? { boxShadow: '0 6px 18px rgba(0,0,0,0.12)' } : {}),
   };
 
   const getStatusColor = (status) => {
@@ -35,7 +36,8 @@ export default function SortableItem({ id, title, status }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`bg-red-400 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
+      {...listeners}
+      className={`bg-gray-100 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
         status
       )} ${
         isDragging ? 'opacity-50' : ''
@@ -43,7 +45,7 @@ export default function SortableItem({ id, title, status }) {
     >
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-gray-800">{title}</span>
-        <div {...listeners} className="text-gray-400 hover:text-gray-600 p-1">
+        <div className="text-gray-400 hover:text-gray-600 p-1">
           <GripVertical size={16} />
         </div>
       </div>
