@@ -83,16 +83,16 @@ Open http://localhost:5173
 
 ## 📌 Roadmap
 
-MVP completed
+- [x] MVP completed
 
-Editable columns
+- [ ] Editable columns
 
-Task details & due dates
+- [ ] Task details & due dates
 
-Priority labels
+- [ ] Priority labels
 
-Multiple boards
+- [ ] Multiple boards
 
-Authentication & DB
+- [ ] Authentication & DB
 
-Real-time sync
+- [ ] Real-time sync
