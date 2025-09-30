@@ -18,12 +18,14 @@ export default function DroppableColumn({
   return (
     <div
       ref={setDroppableNodeRef}
-      className={`${bgColor} p-4 rounded-lg h-[250px] overflow-y-auto`}
+      className={`${bgColor} dark:bg-gray-800 p-4 rounded-lg h-[250px] overflow-y-auto`}
     >
       <div className="flex items-center justify-between mb-4">
-        <h2 className={`font-semibold text-lg ${textColor}`}>{title}</h2>
+        <h2 className={`font-semibold text-lg ${textColor} dark:text-gray-100`}>
+          {title}
+        </h2>
         <span
-          className={`text-sm ${textColor} bg-white px-2 py-1 rounded-full`}
+          className={`text-sm ${textColor} dark:text-gray-200 bg-white dark:bg-gray-700 px-2 py-1 rounded-full`}
         >
           {tasks.length}
         </span>

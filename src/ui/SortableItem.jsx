@@ -36,7 +36,7 @@ export default function SortableItem({ id, title, status, onDelete }) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-gray-100 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
+      className={`bg-gray-100 dark:bg-gray-700 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
         status
       )} ${
         isDragging ? 'opacity-50' : ''
@@ -46,11 +46,13 @@ export default function SortableItem({ id, title, status, onDelete }) {
         <div
           {...attributes}
           {...listeners}
-          className="text-gray-400 hover:text-gray-600 p-1"
+          className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 p-1"
         >
           <GripVertical size={16} />
         </div>
-        <span className="text-sm font-medium text-gray-800">{title}</span>
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {title}
+        </span>
         <button
           onClick={(e) => {
             e.stopPropagation();
