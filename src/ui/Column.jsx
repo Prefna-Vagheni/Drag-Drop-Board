@@ -46,6 +46,7 @@ export default function DragDropTodoApp() {
   const [activeId, setActiveId] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [newTask, setNewTask] = useState('');
+  const [isDark, setIsDark] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -55,6 +56,18 @@ export default function DragDropTodoApp() {
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
+  // Dark mode
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setIsDark(false);
+    }
+  }, []);
 
   const getTasksByStatus = (status) => tasks.filter((t) => t.status === status);
   const activeTask = tasks.find((t) => t.id === activeId) || null;
@@ -185,19 +198,29 @@ export default function DragDropTodoApp() {
     setTaskToDelete(null);
   };
   const cancelDelete = () => setTaskToDelete(null);
+  const toggleDarkMode = () => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    setIsDark(!isDark);
+  };
 
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 ">
             Drag & Drop To-Do Board
           </h1>
           <button
-            onClick={() => document.documentElement.classList.toggle('dark')}
-            className="absolute top-4 right-4 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm"
+            onClick={toggleDarkMode}
+            className=" top-4 right-4 bg-gray-200 dark:bg-gray-700 dark:text-gray-50 px-3 py-1 rounded text-sm cursor-pointer"
           >
-            Toggle Dark Mode
+            {isDark ? '☀️' : '🌙'}
           </button>
         </div>
 
