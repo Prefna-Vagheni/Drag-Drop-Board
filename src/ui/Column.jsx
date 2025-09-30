@@ -180,9 +180,6 @@ export default function DragDropTodoApp() {
     if (e.key === 'Enter') addTask();
   };
 
-  // const handleDelete = (id) => {
-  //   setTasks((prev) => prev.filter((task) => task.id !== id));
-  // };
   const confirmDelete = (id) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
     setTaskToDelete(null);
