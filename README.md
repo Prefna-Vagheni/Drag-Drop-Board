@@ -85,7 +85,7 @@ Open http://localhost:5173
 
 - [x] MVP completed
 
-- [ ] Editable columns
+- [x] Editable columns
 
 - [ ] Task details & due dates
 

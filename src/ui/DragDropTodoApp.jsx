@@ -14,7 +14,7 @@ import DroppableColumn from './DroppableColumn';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import ThemeToggle from './ThemeToggle';
 
-const columns = [
+const defaultColumns = [
   {
     id: 'todo',
     title: 'To Do',
@@ -36,6 +36,11 @@ const columns = [
 ];
 
 export default function DragDropTodoApp() {
+  const [columns, setColumns] = useState(() => {
+    const saved = localStorage.getItem('columns');
+    return saved ? JSON.parse(saved) : defaultColumns;
+  });
+
   // load tasks (flat array). Each task: { id, title, status }
   const [tasks, setTasks] = useState(() => {
     const saved = localStorage.getItem('tasks');
@@ -57,11 +62,22 @@ export default function DragDropTodoApp() {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
+  // Persist columns
+  useEffect(() => {
+    localStorage.setItem('columns', JSON.stringify(columns));
+  }, [columns]);
+
   // Save tasks to localStorage
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  // Get function
+  const updateColumnsTitle = (id, newTitle) => {
+    setColumns((prev) =>
+      prev.map((col) => (col.id === id ? { ...col, title: newTitle } : col))
+    );
+  };
   // Dark mode initialization
   const getTasksByStatus = (status) => tasks.filter((t) => t.status === status);
   const activeTask = tasks.find((t) => t.id === activeId) || null;
@@ -216,6 +232,7 @@ export default function DragDropTodoApp() {
                 textColor={col.text}
                 tasks={getTasksByStatus(col.id)}
                 onDelete={setTaskToDelete}
+                onEditTitle={updateColumnsTitle}
               />
             ))}
           </div>
