@@ -9,23 +9,28 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Plus, GripVertical } from 'lucide-react';
+import { Plus, GripVertical, Sun, Moon } from 'lucide-react';
 import DroppableColumn from './DroppableColumn';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 const columns = [
-  { id: 'todo', title: 'To Do', bg: 'bg-gray-100', text: 'text-gray-700' },
+  {
+    id: 'todo',
+    title: 'To Do',
+    bg: 'bg-gray-100 dark:bg-gray-800',
+    text: 'text-gray-700 dark:text-gray-200',
+  },
   {
     id: 'inprogress',
     title: 'In Progress',
-    bg: 'bg-blue-100',
-    text: 'text-blue-700',
+    bg: 'bg-blue-100 dark:bg-blue-900/50',
+    text: 'text-blue-700 dark:text-blue-200',
   },
   {
     id: 'completed',
     title: 'Completed',
-    bg: 'bg-green-100',
-    text: 'text-green-700',
+    bg: 'bg-green-100 dark:bg-green-900/50',
+    text: 'text-green-700 dark:text-green-200',
   },
 ];
 
@@ -36,7 +41,6 @@ export default function DragDropTodoApp() {
     return saved
       ? JSON.parse(saved)
       : [
-          // optional initial data (remove if you don't want defaults)
           { id: '1', title: 'Buy groceries', status: 'todo' },
           { id: '2', title: 'Build example', status: 'inprogress' },
           { id: '3', title: 'Write tests', status: 'completed' },
@@ -53,19 +57,27 @@ export default function DragDropTodoApp() {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
+  // Save tasks to localStorage
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
-  // Dark mode
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
 
-    if (savedTheme === 'dark') {
+  // Dark mode initialization
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
+    // If saved preference exists, use it; otherwise use system preference
+    const shouldBeDark = savedTheme ? savedTheme === 'true' : prefersDark;
+
+    setIsDark(shouldBeDark);
+
+    if (shouldBeDark) {
       document.documentElement.classList.add('dark');
-      setIsDark(true);
     } else {
       document.documentElement.classList.remove('dark');
-      setIsDark(false);
     }
   }, []);
 
@@ -76,12 +88,6 @@ export default function DragDropTodoApp() {
     setActiveId(active.id);
   };
 
-  /**
-   * handleDragOver:
-   * - detect if hovering a column (we register columns with useDroppable)
-   * - or hovering another task (over.id will be that task id)
-   * - if status must change, update tasks and insert the dragging item into the new list
-   */
   const handleDragOver = ({ active, over }) => {
     if (!over) return;
     const activeId = active.id;
@@ -90,43 +96,32 @@ export default function DragDropTodoApp() {
     const activeTask = tasks.find((t) => t.id === activeId);
     if (!activeTask) return;
 
-    // If over is a column id (we register columns as droppable),
-    // set newStatus to that column id.
     const columnHit = columns.find((c) => c.id === overId);
     let newStatus = null;
-    let insertIndex = null; // where to insert in the new status list
+    let insertIndex = null;
 
     if (columnHit) {
       newStatus = columnHit.id;
-      // insert at end of that column's tasks
       const tasksInNew = tasks.filter((t) => t.status === newStatus);
-      insertIndex = tasksInNew.length; // append
+      insertIndex = tasksInNew.length;
     } else {
-      // over is likely an item id
       const overTask = tasks.find((t) => t.id === overId);
       if (overTask) {
         newStatus = overTask.status;
-        // we'll try to insert before the overTask within its column
         const tasksInNew = tasks.filter((t) => t.status === newStatus);
         insertIndex = tasksInNew.findIndex((t) => t.id === overId);
       }
     }
 
-    // If newStatus equals current, nothing to do here
     if (!newStatus || activeTask.status === newStatus) return;
 
-    // Remove active item from the list and re-insert with updated status
     setTasks((prev) => {
-      // remove active
       const withoutActive = prev.filter((t) => t.id !== activeId);
-      // create updated item
       const updatedActive = { ...activeTask, status: newStatus };
 
-      // split lists by status so we can inject
       const result = [];
       for (const col of columns) {
         if (col.id === newStatus) {
-          // items for this column: take existing (without active), then insert updatedActive at insertIndex
           const list = withoutActive.filter((t) => t.status === col.id);
           const before = list.slice(0, insertIndex);
           const after = list.slice(insertIndex);
@@ -139,12 +134,6 @@ export default function DragDropTodoApp() {
     });
   };
 
-  /**
-   * handleDragEnd:
-   * - if dropped over an item in same column -> reorder that column
-   * - if dropped over column or item in different column, the status should already have been updated
-   *   by handleDragOver, so we just clear active
-   */
   const handleDragEnd = ({ active, over }) => {
     setActiveId(null);
     if (!over) return;
@@ -154,7 +143,6 @@ export default function DragDropTodoApp() {
 
     if (!activeTask || !overTask) return;
 
-    // only reorder if they're in the same column
     if (activeTask.status === overTask.status) {
       const status = activeTask.status;
       const columnTasks = tasks.filter((t) => t.status === status);
@@ -164,7 +152,6 @@ export default function DragDropTodoApp() {
       if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
         const newColumnOrder = arrayMove(columnTasks, oldIndex, newIndex);
 
-        // reconstruct global tasks by replacing that column block
         const newTasks = [];
         for (const col of columns) {
           if (col.id === status) {
@@ -197,34 +184,38 @@ export default function DragDropTodoApp() {
     setTasks((prev) => prev.filter((task) => task.id !== id));
     setTaskToDelete(null);
   };
+
   const cancelDelete = () => setTaskToDelete(null);
+
   const toggleDarkMode = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
+    const newMode = !isDark;
+    setIsDark(newMode);
+    localStorage.setItem('darkMode', newMode.toString());
+
+    if (newMode) {
       document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-    setIsDark(!isDark);
   };
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 ">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
             Drag & Drop To-Do Board
           </h1>
           <button
             onClick={toggleDarkMode}
-            className=" top-4 right-4 bg-gray-200 dark:bg-gray-700 dark:text-gray-50 px-3 py-1 rounded text-sm cursor-pointer"
+            className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            aria-label="Toggle dark mode"
           >
-            {isDark ? '☀️' : '🌙'}
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6 transition-colors">
           <div className="flex gap-2">
             <input
               type="text"
@@ -232,11 +223,11 @@ export default function DragDropTodoApp() {
               onChange={(e) => setNewTask(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder="Add a new task..."
-              className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             />
             <button
               onClick={addTask}
-              className="bg-blue-500 dark:text-gray-400 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
             >
               <Plus size={16} />
               Add
@@ -258,7 +249,7 @@ export default function DragDropTodoApp() {
                 id={col.id}
                 title={col.title}
                 bgColor={col.bg}
-                text={col.text}
+                textColor={col.text}
                 tasks={getTasksByStatus(col.id)}
                 onDelete={setTaskToDelete}
               />
@@ -267,12 +258,15 @@ export default function DragDropTodoApp() {
 
           <DragOverlay>
             {activeTask ? (
-              <div className="bg-white p-3 rounded-lg shadow-lg border-l-4 border-l-blue-400">
+              <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-lg border-l-4 border-l-blue-400 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-800">
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
                     {activeTask.title}
                   </span>
-                  <GripVertical size={14} className="text-gray-400" />
+                  <GripVertical
+                    size={14}
+                    className="text-gray-400 dark:text-gray-300"
+                  />
                 </div>
               </div>
             ) : null}

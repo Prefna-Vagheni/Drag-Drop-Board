@@ -18,7 +18,7 @@ export default function DroppableColumn({
   return (
     <div
       ref={setDroppableNodeRef}
-      className={`${bgColor} dark:bg-gray-800 p-4 rounded-lg h-[250px] overflow-y-auto`}
+      className={`${bgColor}  p-4 rounded-lg h-[250px] overflow-y-auto`}
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className={`font-semibold text-lg ${textColor} dark:text-gray-100`}>
@@ -45,7 +45,7 @@ export default function DroppableColumn({
             />
           ))}
           {tasks.length === 0 && (
-            <div className="text-gray-500 text-center py-8 text-sm">
+            <div className="text-gray-500 dark:text-gray-400 text-center py-8 text-sm">
               No tasks yet. Drop a new one here
             </div>
           )}

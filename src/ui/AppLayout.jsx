@@ -1,7 +1,7 @@
 import Header from './Header';
 import Heading from './Heading';
 // import TaskList from './TaskList';
-import Column from './Column';
+import DragDropTodoApp from './DragDropTodoApp';
 // import TestDraDroppaleContainer from './TestDraDroppaleContainer';
 
 function AppLayout() {
@@ -9,7 +9,7 @@ function AppLayout() {
     <div className="w-full h-screen text-gray-800 bg-gray-200">
       {/* <Header /> */}
       {/* <TestDraDroppaleContainer /> */}
-      <Column />
+      <DragDropTodoApp />
 
       {/* <main className="w-full h-screen grid grid-rows-[40px_1fr] grid-cols-3 gap-4 p-3 text-center">
         <Heading>To Do</Heading>
