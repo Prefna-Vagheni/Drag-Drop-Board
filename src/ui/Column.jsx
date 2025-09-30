@@ -43,6 +43,7 @@ export default function DragDropTodoApp() {
   });
 
   const [activeId, setActiveId] = useState(null);
+  const [taskToDelete, setTaskToDelete] = useState(null);
   const [newTask, setNewTask] = useState('');
 
   const sensors = useSensors(
@@ -179,9 +180,13 @@ export default function DragDropTodoApp() {
   };
 
   const handleDelete = (id) => {
-    console.log('clicked');
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
+  const confirmDelete = (id) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+    setTaskToDelete(null);
+  };
+  const cancelDelete = () => setTaskToDelete(null);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -226,7 +231,7 @@ export default function DragDropTodoApp() {
                 bgColor={col.bg}
                 text={col.text}
                 tasks={getTasksByStatus(col.id)}
-                onDelete={handleDelete}
+                onDelete={setTaskToDelete}
               />
             ))}
           </div>
@@ -245,6 +250,33 @@ export default function DragDropTodoApp() {
           </DragOverlay>
         </DndContext>
       </div>
+      {taskToDelete && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-80">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Confirm Delete
+            </h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to delete{' '}
+              <strong>{taskToDelete.title}</strong>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={cancelDelete}
+                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => confirmDelete(taskToDelete.id)}
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

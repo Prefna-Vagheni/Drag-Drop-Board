@@ -18,7 +18,7 @@ export default function DroppableColumn({
   return (
     <div
       ref={setDroppableNodeRef}
-      className={`${bgColor} p-4 rounded-lg min-h-[100px] overflow-y-scroll`}
+      className={`${bgColor} p-4 rounded-lg h-[250px] overflow-y-auto`}
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className={`font-semibold text-lg ${textColor}`}>{title}</h2>
@@ -39,7 +39,7 @@ export default function DroppableColumn({
               id={task.id}
               title={task.title}
               status={task.status}
-              onDelete={onDelete}
+              onDelete={() => onDelete(task)}
             />
           ))}
           {tasks.length === 0 && (

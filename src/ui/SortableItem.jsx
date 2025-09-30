@@ -36,8 +36,6 @@ export default function SortableItem({ id, title, status, onDelete }) {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className={`bg-gray-100 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
         status
       )} ${
@@ -45,14 +43,18 @@ export default function SortableItem({ id, title, status, onDelete }) {
       } hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing`}
     >
       <div className="flex items-center justify-between">
-        <div className="text-gray-400 hover:text-gray-600 p-1">
+        <div
+          {...attributes}
+          {...listeners}
+          className="text-gray-400 hover:text-gray-600 p-1"
+        >
           <GripVertical size={16} />
         </div>
         <span className="text-sm font-medium text-gray-800">{title}</span>
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onDelete?.(id);
+            onDelete();
           }}
           className="text-red-500 hover:text-red-700 transition-colors p-1"
         >
