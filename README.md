@@ -1,16 +1,98 @@
-# React + Vite
+# Drag & Drop To-Do Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple Kanban-style task manager built with React, Vite, Tailwind CSS, and dnd-kit
+.
+Tasks can be created, deleted, and dragged across columns, with state saved in localStorage.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### ✅ MVP (Completed)
 
-## React Compiler
+Static Kanban board with 3 columns:
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+To-Do
 
-## Expanding the ESLint configuration
+In Progress
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Completed
+
+Add tasks with a text input
+
+Delete tasks with confirmation modal
+
+Drag & drop tasks between columns and reorder within columns (using dnd-kit)
+
+Persist tasks in browser localStorage
+
+Dark/Light mode toggle with persistence
+
+### 🚧 Enhancements (Planned)
+
+Editable column names and colors
+
+Task detail modal (description, due date, etc.)
+
+Task priority labels (Low, Medium, High)
+
+### 🔮 Advanced Features (Future)
+
+Support for multiple boards
+
+Authentication (Supabase/Firebase)
+
+Cloud database sync
+
+Real-time collaboration (WebSockets / Supabase realtime)
+
+## 🎥 Demo
+
+🖼️ Replace these with your actual screenshots/GIFs once you capture them.
+
+Light Mode
+
+Dark Mode
+
+Drag & Drop
+
+Delete Confirmation
+
+## 🛠️ Tech Stack
+
+[React 19](www.react.dev)
+
+[Vite 7](https://vite.dev/blog/announcing-vite7)
+
+[Tailwind CSS 4](www.tailwindcss.com) with dark mode support
+
+[dnd-kit](https://dndkit.com/) for drag & drop
+
+[Lucide React](https://lucide.dev/guide/packages/lucide-react) for icons
+
+## 🚀 Getting Started
+
+1. Clone & Install
+   git clone https://github.com/your-username/drag-drop-todo.git
+   cd drag-drop-todo
+   npm install
+
+2. Run Dev Server
+   npm run dev
+
+Open http://localhost:5173
+.
+
+## 📌 Roadmap
+
+MVP completed
+
+Editable columns
+
+Task details & due dates
+
+Priority labels
+
+Multiple boards
+
+Authentication & DB
+
+Real-time sync
