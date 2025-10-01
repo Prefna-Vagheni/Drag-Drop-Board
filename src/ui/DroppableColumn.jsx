@@ -25,6 +25,8 @@ export default function DroppableColumn({
     onEditTitle(id, tempTitle.trim() || title);
   };
 
+  console.log(tasks);
+
   return (
     <div
       ref={setDroppableNodeRef}
@@ -75,6 +77,7 @@ export default function DroppableColumn({
               id={task.id}
               title={task.title}
               status={task.status}
+              priority={task.priority}
               onDelete={() => onDelete(task)}
             />
           ))}

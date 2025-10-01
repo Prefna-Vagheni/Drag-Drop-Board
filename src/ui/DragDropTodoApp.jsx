@@ -47,14 +47,30 @@ export default function DragDropTodoApp() {
     return saved
       ? JSON.parse(saved)
       : [
-          { id: '1', title: 'Buy groceries', status: 'todo' },
-          { id: '2', title: 'Build example', status: 'inprogress' },
-          { id: '3', title: 'Write tests', status: 'completed' },
+          {
+            id: '1',
+            title: 'Buy groceries',
+            status: 'todo',
+            priority: 'medium',
+          },
+          {
+            id: '2',
+            title: 'Build example',
+            status: 'inprogress',
+            priority: 'medium',
+          },
+          {
+            id: '3',
+            title: 'Write tests',
+            status: 'completed',
+            priority: 'medium',
+          },
         ];
   });
 
   const [activeId, setActiveId] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [priority, setPriority] = useState('medium');
   const [newTask, setNewTask] = useState('');
 
   const sensors = useSensors(
@@ -169,9 +185,11 @@ export default function DragDropTodoApp() {
       id: Date.now().toString(),
       title: newTask.trim(),
       status: 'todo',
+      priority: priority,
     };
     setTasks((prev) => [...prev, item]);
     setNewTask('');
+    setPriority('medium');
   };
 
   const onKeyDown = (e) => {
@@ -205,6 +223,15 @@ export default function DragDropTodoApp() {
               placeholder="Add a new task..."
               className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             />
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              className="px-2 py-2 border bg-gray-700 text-gray-50 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
             <button
               onClick={addTask}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
