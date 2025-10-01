@@ -15,6 +15,7 @@ export default function DroppableColumn({
   id,
   onDelete,
   onEditTitle,
+  onEditDetails,
 }) {
   const { setNodeRef: setDroppableNodeRef } = useDroppable({ id });
   const [isEditing, setIsEditing] = useState(false);
@@ -24,8 +25,6 @@ export default function DroppableColumn({
     setIsEditing(false);
     onEditTitle(id, tempTitle.trim() || title);
   };
-
-  console.log(tasks);
 
   return (
     <div
@@ -75,10 +74,9 @@ export default function DroppableColumn({
             <SortableItem
               key={task.id}
               id={task.id}
-              title={task.title}
-              status={task.status}
-              priority={task.priority}
+              task={task}
               onDelete={() => onDelete(task)}
+              onEditDetails={onEditDetails}
             />
           ))}
           {tasks.length === 0 && (

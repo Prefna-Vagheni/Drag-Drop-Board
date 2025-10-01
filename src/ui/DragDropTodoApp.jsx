@@ -13,6 +13,7 @@ import { Plus, GripVertical, Sun, Moon } from 'lucide-react';
 import DroppableColumn from './DroppableColumn';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import ThemeToggle from './ThemeToggle';
+import TaskDetailModal from './TaskDetailModal';
 
 const defaultColumns = [
   {
@@ -52,18 +53,24 @@ export default function DragDropTodoApp() {
             title: 'Buy groceries',
             status: 'todo',
             priority: 'medium',
+            description: '',
+            dueDate: '',
           },
           {
             id: '2',
             title: 'Build example',
             status: 'inprogress',
             priority: 'medium',
+            description: '',
+            dueDate: '',
           },
           {
             id: '3',
             title: 'Write tests',
             status: 'completed',
             priority: 'medium',
+            description: '',
+            dueDate: '',
           },
         ];
   });
@@ -71,6 +78,7 @@ export default function DragDropTodoApp() {
   const [activeId, setActiveId] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [priority, setPriority] = useState('medium');
+  const [selectedTask, setSelectedTask] = useState(null);
   const [newTask, setNewTask] = useState('');
 
   const sensors = useSensors(
@@ -186,10 +194,18 @@ export default function DragDropTodoApp() {
       title: newTask.trim(),
       status: 'todo',
       priority: priority,
+      description: '',
+      dueDate: '',
     };
     setTasks((prev) => [...prev, item]);
     setNewTask('');
     setPriority('medium');
+  };
+
+  const handleSaveTaskDetails = (taskId, updates) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === taskId ? { ...t, ...updates } : t))
+    );
   };
 
   const onKeyDown = (e) => {
@@ -260,6 +276,7 @@ export default function DragDropTodoApp() {
                 tasks={getTasksByStatus(col.id)}
                 onDelete={setTaskToDelete}
                 onEditTitle={updateColumnsTitle}
+                onEditDetails={setSelectedTask}
               />
             ))}
           </div>
@@ -286,6 +303,13 @@ export default function DragDropTodoApp() {
           taskToDelete={taskToDelete}
           cancelDelete={cancelDelete}
           confirmDelete={confirmDelete}
+        />
+      )}
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+          onSave={handleSaveTaskDetails}
         />
       )}
     </div>

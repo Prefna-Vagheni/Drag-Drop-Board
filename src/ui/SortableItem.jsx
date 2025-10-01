@@ -1,14 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Trash2 } from 'lucide-react';
+import { GripVertical, Info, Trash2 } from 'lucide-react';
 
-export default function SortableItem({
-  id,
-  title,
-  status,
-  onDelete,
-  priority,
-}) {
+export default function SortableItem({ id, onDelete, onEditDetails, task }) {
   const {
     attributes,
     listeners,
@@ -56,7 +50,7 @@ export default function SortableItem({
       ref={setNodeRef}
       style={style}
       className={`bg-gray-100 dark:bg-gray-700 p-3 rounded-lg shadow-sm border-l-4 ${getStatusColor(
-        status
+        task.status
       )} ${
         isDragging ? 'opacity-50' : ''
       } hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing`}
@@ -71,16 +65,16 @@ export default function SortableItem({
             <GripVertical size={16} />
           </div>
           <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
-            {title}
+            {task.title}
           </span>
         </div>
         <div className="flex gap-1 items-center">
           <span
             className={`ml-2 text-xs font-semibold px-2 py-1 rounded-full ${getPriorityLevel(
-              priority
+              task.priority
             )}`}
           >
-            {priority}
+            {task.priority}
           </span>
           <button
             onClick={(e) => {
@@ -90,6 +84,12 @@ export default function SortableItem({
             className="text-red-500 hover:text-red-700 transition-colors p-1"
           >
             <Trash2 size={18} />
+          </button>
+          <button
+            onClick={() => onEditDetails(task)}
+            className="text-blue-500 hover:text-blue-700 transition-colors p-1"
+          >
+            <Info size={16} />
           </button>
         </div>
       </div>

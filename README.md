@@ -89,7 +89,7 @@ Open http://localhost:5173
 
 - [ ] Task details & due dates
 
-- [ ] Priority labels
+- [x] Priority labels
 
 - [ ] Multiple boards
 
