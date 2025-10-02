@@ -10,7 +10,7 @@ function TaskDetailModal({ task, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center bg-black/50 z-50">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-[28rem]">
         <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
           {task.title}
