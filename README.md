@@ -79,7 +79,10 @@ Delete Confirmation
    npm run dev
 
 Open http://localhost:5173
-.
+
+## BUGS TO FIX
+
+- Toggle dark mode not working properly: still need to grasp the latest version of vite.
 
 ## 📌 Roadmap
 
