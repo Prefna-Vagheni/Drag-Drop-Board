@@ -219,6 +219,10 @@ export default function DragDropTodoApp() {
 
   const cancelDelete = () => setTaskToDelete(null);
 
+  const handleOpenDetails = (task) => {
+    setSelectedTask(task);
+  };
+
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
       <div className="max-w-6xl mx-auto">
@@ -276,7 +280,7 @@ export default function DragDropTodoApp() {
                 tasks={getTasksByStatus(col.id)}
                 onDelete={setTaskToDelete}
                 onEditTitle={updateColumnsTitle}
-                onEditDetails={setSelectedTask}
+                onEditDetails={handleOpenDetails}
               />
             ))}
           </div>
