@@ -4,9 +4,7 @@ A simple Kanban-style task manager built with React, Vite, Tailwind CSS, and dnd
 .
 Tasks can be created, deleted, and dragged across columns, with state saved in localStorage.
 
-## ✨ Features
-
-### MVP (Completed)
+## MVP (Completed)
 
 Static Kanban board with 3 columns:
 
@@ -26,7 +24,7 @@ Persist tasks in browser localStorage
 
 Dark/Light mode toggle with persistence
 
-### Enhancements (Planned)
+## Enhancements (Planned)
 
 Editable column names and colors
 
@@ -34,7 +32,7 @@ Task detail modal (description, due date, etc.)
 
 Task priority labels (Low, Medium, High)
 
-### Advanced Features (Future)
+## Advanced Features (Future)
 
 Support for multiple boards
 
