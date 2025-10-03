@@ -80,9 +80,10 @@ Delete Confirmation
 
 Open http://localhost:5173
 
-## BUGS TO FIX
+## BUGS TO FIX AND AREAS TO IMPROVE
 
 - Toggle dark mode not working properly: still need to grasp the latest version of vite.
+- State management; the up is built so far using states which at some point don't look that pretty. So the use of context or state management tools is one of the go for
 
 ## 📌 Roadmap
 

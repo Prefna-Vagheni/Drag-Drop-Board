@@ -14,6 +14,9 @@ import DroppableColumn from './DroppableColumn';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import ThemeToggle from './ThemeToggle';
 import TaskDetailModal from './TaskDetailModal';
+import InputRow from './InputRow';
+import ColumnsContainer from './ColumnsContainer';
+import DragActiveTask from './DragActiveTask';
 
 const defaultColumns = [
   {
@@ -97,13 +100,9 @@ export default function DragDropTodoApp() {
   }, [tasks]);
 
   // Get function
-  const updateColumnsTitle = (id, newTitle) => {
-    setColumns((prev) =>
-      prev.map((col) => (col.id === id ? { ...col, title: newTitle } : col))
-    );
-  };
+
   // Dark mode initialization
-  const getTasksByStatus = (status) => tasks.filter((t) => t.status === status);
+
   const activeTask = tasks.find((t) => t.id === activeId) || null;
 
   const handleDragStart = ({ active }) => {
@@ -187,29 +186,10 @@ export default function DragDropTodoApp() {
     }
   };
 
-  const addTask = () => {
-    if (!newTask.trim()) return;
-    const item = {
-      id: Date.now().toString(),
-      title: newTask.trim(),
-      status: 'todo',
-      priority: priority,
-      description: '',
-      dueDate: '',
-    };
-    setTasks((prev) => [...prev, item]);
-    setNewTask('');
-    setPriority('medium');
-  };
-
   const handleSaveTaskDetails = (taskId, updates) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, ...updates } : t))
     );
-  };
-
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter') addTask();
   };
 
   const confirmDelete = (id) => {
@@ -223,6 +203,8 @@ export default function DragDropTodoApp() {
     setSelectedTask(task);
   };
 
+  // const handleSetTasks = (item) => setTasks((prev) => [...prev, item]);
+
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
       <div className="max-w-6xl mx-auto">
@@ -233,34 +215,13 @@ export default function DragDropTodoApp() {
           <ThemeToggle />
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6 transition-colors">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              onKeyDown={onKeyDown}
-              placeholder="Add a new task..."
-              className="flex-1 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-            />
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="px-2 py-2 border bg-gray-700 text-gray-50 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <button
-              onClick={addTask}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-            >
-              <Plus size={16} />
-              Add
-            </button>
-          </div>
-        </div>
+        <InputRow
+          newTask={newTask}
+          priority={priority}
+          setNewTask={setNewTask}
+          setPriority={setPriority}
+          setTasks={setTasks}
+        />
 
         <DndContext
           sensors={sensors}
@@ -269,36 +230,16 @@ export default function DragDropTodoApp() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {columns.map((col) => (
-              <DroppableColumn
-                key={col.id}
-                id={col.id}
-                title={col.title}
-                bgColor={col.bg}
-                textColor={col.text}
-                tasks={getTasksByStatus(col.id)}
-                onDelete={setTaskToDelete}
-                onEditTitle={updateColumnsTitle}
-                onEditDetails={handleOpenDetails}
-              />
-            ))}
-          </div>
+          <ColumnsContainer
+            columns={columns}
+            tasks={tasks}
+            setTaskToDelete={setTaskToDelete}
+            setColumns={setColumns}
+            handleOpenDetails={handleOpenDetails}
+          />
 
           <DragOverlay>
-            {activeTask ? (
-              <div className="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-lg border-l-4 border-l-blue-400 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                    {activeTask.title}
-                  </span>
-                  <GripVertical
-                    size={14}
-                    className="text-gray-400 dark:text-gray-300"
-                  />
-                </div>
-              </div>
-            ) : null}
+            {activeTask ? <DragActiveTask activeTask={activeTask} /> : null}
           </DragOverlay>
         </DndContext>
       </div>
