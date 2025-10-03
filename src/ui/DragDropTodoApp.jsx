@@ -17,6 +17,7 @@ import TaskDetailModal from './TaskDetailModal';
 import InputRow from './InputRow';
 import ColumnsContainer from './ColumnsContainer';
 import DragActiveTask from './DragActiveTask';
+import Header from './Header';
 
 const defaultColumns = [
   {
@@ -208,12 +209,7 @@ export default function DragDropTodoApp() {
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            Drag & Drop To-Do Board
-          </h1>
-          <ThemeToggle />
-        </div>
+        <Header />
 
         <InputRow
           newTask={newTask}
