@@ -9,10 +9,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Plus, GripVertical, Sun, Moon } from 'lucide-react';
-import DroppableColumn from './DroppableColumn';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
-import ThemeToggle from './ThemeToggle';
 import TaskDetailModal from './TaskDetailModal';
 import InputRow from './InputRow';
 import ColumnsContainer from './ColumnsContainer';
@@ -99,10 +96,6 @@ export default function DragDropTodoApp() {
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
-
-  // Get function
-
-  // Dark mode initialization
 
   const activeTask = tasks.find((t) => t.id === activeId) || null;
 
@@ -203,8 +196,6 @@ export default function DragDropTodoApp() {
   const handleOpenDetails = (task) => {
     setSelectedTask(task);
   };
-
-  // const handleSetTasks = (item) => setTasks((prev) => [...prev, item]);
 
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">

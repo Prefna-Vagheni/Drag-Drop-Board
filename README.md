@@ -6,19 +6,19 @@ Tasks can be created, deleted, and dragged across columns, with state saved in l
 
 ## ✨ Features
 
-### ✅ MVP (Completed)
+### MVP (Completed)
 
 Static Kanban board with 3 columns:
 
-To-Do
+- To-Do
 
-In Progress
+- In Progress
 
-Completed
+- Completed
 
-Add tasks with a text input
+- Add tasks with a text input
 
-Delete tasks with confirmation modal
+- Delete tasks with confirmation modal
 
 Drag & drop tasks between columns and reorder within columns (using dnd-kit)
 
@@ -26,7 +26,7 @@ Persist tasks in browser localStorage
 
 Dark/Light mode toggle with persistence
 
-### 🚧 Enhancements (Planned)
+### Enhancements (Planned)
 
 Editable column names and colors
 
@@ -34,7 +34,7 @@ Task detail modal (description, due date, etc.)
 
 Task priority labels (Low, Medium, High)
 
-### 🔮 Advanced Features (Future)
+### Advanced Features (Future)
 
 Support for multiple boards
 
@@ -44,17 +44,13 @@ Cloud database sync
 
 Real-time collaboration (WebSockets / Supabase realtime)
 
-## 🎥 Demo
+## Demo
 
-🖼️ Replace these with your actual screenshots/GIFs once you capture them.
+![Screenshot of the app Dark Mode](/src/assets/dark.png)
 
-Light Mode
+![Image of the drag and drop process](/src/assets/drag.png)
 
-Dark Mode
-
-Drag & Drop
-
-Delete Confirmation
+![Image of the confirm delete modal](/src/assets/delete.png)
 
 ## 🛠️ Tech Stack
 
@@ -68,7 +64,7 @@ Delete Confirmation
 
 [Lucide React](https://lucide.dev/guide/packages/lucide-react) for icons
 
-## 🚀 Getting Started
+## Getting Started
 
 1. Clone & Install
    git clone https://github.com/your-username/drag-drop-todo.git
@@ -85,13 +81,13 @@ Open http://localhost:5173
 - Toggle dark mode not working properly: still need to grasp the latest version of vite.
 - State management; the up is built so far using states which at some point don't look that pretty. So the use of context or state management tools is one of the go for
 
-## 📌 Roadmap
+## Tasks
 
 - [x] MVP completed
 
 - [x] Editable columns
 
-- [ ] Task details & due dates
+- [x] Task details & due dates
 
 - [x] Priority labels
 
